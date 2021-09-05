@@ -10,31 +10,48 @@ import Foundation
 extension MockFiles {
 
     func getViewContent(name: String) -> String {
-        return self.mockView.replacingOccurrences(of: passKey, with: name)
+        return replace(name: self.mockView)
     }
     
     func getStoryboardContent(name: String) -> String {
-        return self.mockStoryboard.replacingOccurrences(of: passKey, with: name)
+        return replace(name: self.mockStoryboard)
     }
     
     func getInteractorContent(name: String) -> String {
-        return self.mockInteractor.replacingOccurrences(of: passKey, with: name)
+        return replace(name: self.mockInteractor)
     }
     
     func getPresenterContent(name: String) -> String {
-        return self.mockPresenter.replacingOccurrences(of: passKey, with: name)
+        return replace(name: self.mockPresenter)
     }
     
     func getEntityContent(name: String) -> String {
-        return self.mockEntity.replacingOccurrences(of: passKey, with: name)
+        return replace(name: self.mockEntity)
     }
     
     func getRouterContent(name: String) -> String {
-        return self.mockRouter.replacingOccurrences(of: passKey, with: name)
+        return replace(name: self.mockRouter)
     }
     
     func getExampleContent(name: String) -> String {
-        return self.mockExample.replacingOccurrences(of: passKey, with: name)
+        return replace(name: self.mockExample)
+        
+    }
+    
+    func replace(name: String) -> String {
+        var name = name
+        
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        let dateString = dateFormatter.string(from: date)
+        dateFormatter.dateFormat = "yyyy"
+        let yearString = dateFormatter.string(from: date)
+        
+        name = name.replacingOccurrences(of: nameKey, with: NSFullUserName())
+        name = name.replacingOccurrences(of: dateKey, with: dateString)
+        name = name.replacingOccurrences(of: yearKey, with: yearString)
+        return name.replacingOccurrences(of: passKey, with: name)
     }
     
 }
@@ -42,15 +59,17 @@ extension MockFiles {
 class MockFiles {
     
     let passKey = "ModuleViper"
+    let nameKey = "_NAME_"
+    let dateKey = "_DATE_"
+    let yearKey = "_YEAR_"
 
     let mockView =
 """
 //
 //  ModuleViperVC.swift
-//  Megamil
 //
-//  Created by Eduardo dos santos on 03/09/21.
-//  Copyright © 2021 Eduardo dos santos. All rights reserved.
+//  Created by _NAME_ on _DATE_.
+//  Copyright © _YEAR_ _NAME_. All rights reserved.
 //
 
 import UIKit
@@ -152,10 +171,9 @@ extension ModuleViperVC {
 """
 //
 //  ModuleViperInteractor.swift
-//  Metas
 //
-//  Created by Eduardo dos santos on 12/08/20.
-//  Copyright © 2020 Eduardo dos santos. All rights reserved.
+//  Created by _NAME_ on _DATE_.
+//  Copyright © _YEAR_ _NAME_. All rights reserved.
 //
 
 import Foundation
@@ -188,10 +206,9 @@ class ModuleViperInteractor {
 """
 //
 //  ModuleViperPresenter.swift
-//  Metas
 //
-//  Created by Eduardo dos santos on 12/08/20.
-//  Copyright © 2020 Eduardo dos santos. All rights reserved.
+//  Created by _NAME_ on _DATE_.
+//  Copyright © _YEAR_ _NAME_. All rights reserved.
 //
 
 import Foundation
@@ -232,10 +249,9 @@ extension ModuleViperPresenter {
 """
 //
 //  ModuleViperEntity.swift
-//  Megamil
 //
-//  Created by Eduardo dos santos on 03/09/21.
-//  Copyright © 2021 Eduardo dos santos. All rights reserved.
+//  Created by _NAME_ on _DATE_.
+//  Copyright © _YEAR_ _NAME_. All rights reserved.
 //
 
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
@@ -257,10 +273,9 @@ struct ModuleViper: Codable {
 """
 //
 //  ModuleViperRouter.swift
-//  Megamil
 //
-//  Created by Eduardo dos santos on 03/09/21.
-//  Copyright © 2021 Eduardo dos santos. All rights reserved.
+//  Created by _NAME_ on _DATE_.
+//  Copyright © _YEAR_ _NAME_. All rights reserved.
 //
 
 import UIKit
