@@ -10,36 +10,36 @@ import Foundation
 extension MockFiles {
 
     func getViewContent(name: String) -> String {
-        return replace(name: self.mockView)
+        return replace(text: self.mockView, name: name)
     }
     
     func getStoryboardContent(name: String) -> String {
-        return replace(name: self.mockStoryboard)
+        return replace(text: self.mockStoryboard, name: name)
     }
     
     func getInteractorContent(name: String) -> String {
-        return replace(name: self.mockInteractor)
+        return replace(text: self.mockInteractor, name: name)
     }
     
     func getPresenterContent(name: String) -> String {
-        return replace(name: self.mockPresenter)
+        return replace(text: self.mockPresenter, name: name)
     }
     
     func getEntityContent(name: String) -> String {
-        return replace(name: self.mockEntity)
+        return replace(text: self.mockEntity, name: name)
     }
     
     func getRouterContent(name: String) -> String {
-        return replace(name: self.mockRouter)
+        return replace(text: self.mockRouter, name: name)
     }
     
     func getExampleContent(name: String) -> String {
-        return replace(name: self.mockExample)
+        return replace(text: self.mockExample, name: name)
         
     }
     
-    func replace(name: String) -> String {
-        var name = name
+    func replace(text: String,name: String) -> String {
+        var text = text
         
         let date = Date()
         let dateFormatter = DateFormatter()
@@ -48,10 +48,10 @@ extension MockFiles {
         dateFormatter.dateFormat = "yyyy"
         let yearString = dateFormatter.string(from: date)
         
-        name = name.replacingOccurrences(of: nameKey, with: NSFullUserName())
-        name = name.replacingOccurrences(of: dateKey, with: dateString)
-        name = name.replacingOccurrences(of: yearKey, with: yearString)
-        return name.replacingOccurrences(of: passKey, with: name)
+        text = text.replacingOccurrences(of: nameKey, with: NSFullUserName())
+        text = text.replacingOccurrences(of: dateKey, with: dateString)
+        text = text.replacingOccurrences(of: yearKey, with: yearString)
+        return text.replacingOccurrences(of: passKey, with: name)
     }
     
 }
