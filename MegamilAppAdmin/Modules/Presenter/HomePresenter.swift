@@ -25,6 +25,10 @@ class HomePresenter {
                 //Path
                 try fileManager.createDirectory(atPath: dataPath.absoluteString, withIntermediateDirectories: true, attributes: nil)
                 
+                let mockExample = MockFiles().getExampleContent(name: moduleName)
+                let ExURL = docURL.appendingPathComponent("\(moduleName)_How_to_use.txt", isDirectory: false)
+                self.addFile(content: mockExample, URL: ExURL)
+                
                 //View
                 let pathView = dataPath.appendingPathComponent("View")
                 try fileManager.createDirectory(atPath: pathView.absoluteString, withIntermediateDirectories: true, attributes: nil)
@@ -68,10 +72,6 @@ class HomePresenter {
                 let mockRouter = MockFiles().getRouterContent(name: moduleName)
                 let rURL = pathRouter.appendingPathComponent("\(moduleName)Router.swift", isDirectory: false)
                 self.addFile(content: mockRouter, URL: rURL)
-                
-                let mockExample = MockFiles().getExampleContent(name: moduleName)
-                let ExURL = dataPath.appendingPathComponent("\(moduleName)_How_to_use.txt", isDirectory: false)
-                self.addFile(content: mockExample, URL: ExURL)
                 
                 callBack(true, ConstantsStrings.labelSuccessDir.rawValue)
                 
