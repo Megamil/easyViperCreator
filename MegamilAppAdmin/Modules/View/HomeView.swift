@@ -31,6 +31,8 @@ struct HomeSetupView: View {
     
     @State var path: String? //= "/Users/" + NSUserName() + "/Desktop"
     //@State var path: String = (NSSearchPathForDirectoriesInDomains(.desktopDirectory, .userDomainMask, true) as [String]).first ?? ""
+    @State private var selectedType = "Com Scroll"
+    let typeViews = ["Com Scroll", "Sem Scroll", "TableView"]
     @State var moduleName: String = ""
     @State var showAlert = false
     
@@ -47,6 +49,8 @@ struct HomeSetupView: View {
             //Title
             Text(ConstantsStrings.titleHome.rawValue)
                 .font(.title)
+                .multilineTextAlignment(.center)
+                
             
             //Input
             TextField(ConstantsStrings.placeHolderInput.rawValue, text: $moduleName, onEditingChanged: { (changed) in
@@ -60,7 +64,7 @@ struct HomeSetupView: View {
             //Button
             Button(ConstantsStrings.buttonTitleCreateViper.rawValue) {
                 if(!(path?.isEmpty ?? true)) {
-                    self.presenter.createViperFiles(moduleName: moduleName, path: path!) { status, msg in
+                    self.presenter.createViperFiles(moduleName: moduleName, path: path!, typeView: selectedType) { status, msg in
                         
                         self.msgPresenter = msg ?? ""
                         self.showAlert.toggle()
@@ -81,6 +85,13 @@ struct HomeSetupView: View {
                     dismissButton: .default(Text(ConstantsStrings.labelCloseAlert.rawValue))
                 )
             }
+            
+            Picker("Qual estilo deseja?", selection: $selectedType) {
+               ForEach(typeViews, id: \.self) {
+                   Text($0)
+               }
+            }
+            .frame(width: 300, height: 40, alignment: .center)
             
             HStack {
                 Text("[\(path ?? "")]")

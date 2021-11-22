@@ -11,7 +11,7 @@ class HomePresenter {
     
     let fileManager = FileManager.default
     
-    func createViperFiles(moduleName: String, path: String, callBack: @escaping (Bool?, String?) -> Void) {
+    func createViperFiles(moduleName: String, path: String, typeView: String?, callBack: @escaping (Bool?, String?) -> Void) {
         
         print(ConstantsStrings.buttonTitleCreateViper.rawValue)
         print(moduleName)
@@ -32,15 +32,37 @@ class HomePresenter {
                 //View
                 let pathView = dataPath.appendingPathComponent("View")
                 try fileManager.createDirectory(atPath: pathView.absoluteString, withIntermediateDirectories: true, attributes: nil)
+                switch(typeView) {
+                    case "Com Scroll":
+                        let mockView = MockFiles().getViewContent(name: moduleName)
+                        let vURL = pathView.appendingPathComponent("\(moduleName)VC.swift", isDirectory: false)
+                        self.addFile(content: mockView, URL: vURL)
+                        
+                        let mockStory = MockFiles().getStoryboardScrollContent(name: moduleName)
+                        let sURL = pathView.appendingPathComponent("\(moduleName)VC.storyboard", isDirectory: false)
+                        self.addFile(content: mockStory, URL: sURL)
+                    break
+                    case "TableView":
+                        let mockView = MockFiles().getViewTableContent(name: moduleName)
+                        let vURL = pathView.appendingPathComponent("\(moduleName)VC.swift", isDirectory: false)
+                        self.addFile(content: mockView, URL: vURL)
+                        
+                        let mockStory = MockFiles().getStoryboardTableContent(name: moduleName)
+                        let sURL = pathView.appendingPathComponent("\(moduleName)VC.storyboard", isDirectory: false)
+                        self.addFile(content: mockStory, URL: sURL)
+                    break
+                default:
+                        let mockView = MockFiles().getViewContent(name: moduleName)
+                        let vURL = pathView.appendingPathComponent("\(moduleName)VC.swift", isDirectory: false)
+                        self.addFile(content: mockView, URL: vURL)
+                        
+                        let mockStory = MockFiles().getStoryboardContent(name: moduleName)
+                        let sURL = pathView.appendingPathComponent("\(moduleName)VC.storyboard", isDirectory: false)
+                        self.addFile(content: mockStory, URL: sURL)
+                    break
+                }
                 
-                let mockView = MockFiles().getViewContent(name: moduleName)
-                let vURL = pathView.appendingPathComponent("\(moduleName)VC.swift", isDirectory: false)
-                self.addFile(content: mockView, URL: vURL)
                 
-                let mockStory = MockFiles().getStoryboardContent(name: moduleName)
-                let sURL = pathView.appendingPathComponent("\(moduleName)VC.storyboard", isDirectory: false)
-                self.addFile(content: mockStory, URL: sURL)
-
                 //Interactor
                 let pathInteractor = dataPath.appendingPathComponent("Interactor")
                 try fileManager.createDirectory(atPath: pathInteractor.absoluteString, withIntermediateDirectories: true, attributes: nil)
