@@ -11,6 +11,7 @@
 		594ECC9726E17B3600D96625 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 594ECC9626E17B3600D96625 /* Assets.xcassets */; };
 		594ECC9A26E17B3600D96625 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 594ECC9926E17B3600D96625 /* Preview Assets.xcassets */; };
 		5970212226E2C03100C60D9C /* MockFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5970212126E2C03100C60D9C /* MockFiles.swift */; };
+		59883F19299CFB9B00A19F06 /* MockFilesKotlin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59883F18299CFB9B00A19F06 /* MockFilesKotlin.swift */; };
 		59C65B8926E17FD50075D25B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C65B8826E17FD50075D25B /* HomeView.swift */; };
 		59C65B8C26E185EC0075D25B /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C65B8B26E185EC0075D25B /* Styles.swift */; };
 		59C65B8E26E190AC0075D25B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C65B8D26E190AC0075D25B /* Constants.swift */; };
@@ -25,6 +26,7 @@
 		594ECC9B26E17B3600D96625 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		594ECC9C26E17B3600D96625 /* MegamilAppAdmin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MegamilAppAdmin.entitlements; sourceTree = "<group>"; };
 		5970212126E2C03100C60D9C /* MockFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFiles.swift; sourceTree = "<group>"; };
+		59883F18299CFB9B00A19F06 /* MockFilesKotlin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockFilesKotlin.swift; sourceTree = "<group>"; };
 		59C65B8826E17FD50075D25B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		59C65B8B26E185EC0075D25B /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		59C65B8D26E190AC0075D25B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 		5970212026E2C00200C60D9C /* Files */ = {
 			isa = PBXGroup;
 			children = (
+				59883F18299CFB9B00A19F06 /* MockFilesKotlin.swift */,
 				5970212126E2C03100C60D9C /* MockFiles.swift */,
 			);
 			path = Files;
@@ -150,7 +153,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1250;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					594ECC8E26E17B3300D96625 = {
 						CreatedOnToolsVersion = 12.5.1;
@@ -194,6 +197,7 @@
 			files = (
 				59C65B8C26E185EC0075D25B /* Styles.swift in Sources */,
 				59C65B8926E17FD50075D25B /* HomeView.swift in Sources */,
+				59883F19299CFB9B00A19F06 /* MockFilesKotlin.swift in Sources */,
 				594ECC9326E17B3300D96625 /* MegamilAppAdminApp.swift in Sources */,
 				59C65B9126E195F40075D25B /* HomePresenter.swift in Sources */,
 				5970212226E2C03100C60D9C /* MockFiles.swift in Sources */,
@@ -238,6 +242,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -299,6 +304,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -325,8 +331,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MegamilAppAdmin/MegamilAppAdmin.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"MegamilAppAdmin/Preview Content\"";
 				DEVELOPMENT_TEAM = 6TEU37XW47;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -349,8 +357,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MegamilAppAdmin/MegamilAppAdmin.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"MegamilAppAdmin/Preview Content\"";
 				DEVELOPMENT_TEAM = 6TEU37XW47;
 				ENABLE_HARDENED_RUNTIME = YES;

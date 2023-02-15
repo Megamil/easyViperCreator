@@ -86,6 +86,32 @@ struct HomeSetupView: View {
                 )
             }
             
+            //Button
+            Button(ConstantsStrings.btnCleanKotlin.rawValue) {
+                if(!(path?.isEmpty ?? true)) {
+                    self.presenter.createKotlinFiles(moduleName: moduleName, path: path!, typeView: selectedType) { status, msg in
+                        
+                        self.msgPresenter = msg ?? ""
+                        self.showAlert.toggle()
+                        
+                        if(status ?? false) {
+                            NSWorkspace.shared.selectFile("\(path!)/\(moduleName)", inFileViewerRootedAtPath: "")
+
+                        }
+                        
+                    }
+                }
+                }
+            }
+            .buttonStyle(MegamilButton(isActive: !(self.path?.isEmpty ?? true)))
+            .alert(isPresented: $showAlert) { () -> Alert in
+                Alert(
+                    title: Text(ConstantsStrings.labelTitleAlert.rawValue),
+                    message: Text(msgPresenter),
+                    dismissButton: .default(Text(ConstantsStrings.labelCloseAlert.rawValue))
+                )
+            }
+            
             Picker("Qual estilo deseja?", selection: $selectedType) {
                ForEach(typeViews, id: \.self) {
                    Text($0)
@@ -102,7 +128,7 @@ struct HomeSetupView: View {
             
         }
     }
-}
+
 
 extension HomeSetupView {
     

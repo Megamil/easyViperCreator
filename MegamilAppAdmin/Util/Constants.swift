@@ -21,6 +21,8 @@ enum ConstantsStrings: String {
     case labelTitleAlert = "Aviso"
     case labelCloseAlert = "Ok"
     
+    case btnCleanKotlin = "Gerar Clean em Kotlin"
+    
     //Presenter
     case labelSuccessDir = "Criado com sucesso!"
     case labelErrorDir = "Já existe uma pasta com esse nome"

@@ -115,6 +115,138 @@ class HomePresenter {
         
     }
     
+    func createKotlinFiles(moduleName: String, path: String, typeView: String?, callBack: @escaping (Bool?, String?) -> Void) {
+        
+        print(ConstantsStrings.buttonTitleCreateViper.rawValue)
+        print(moduleName)
+        
+        let docURL = URL(string: path)!
+        let dataPath = docURL
+            .appendingPathComponent("com")
+            .appendingPathComponent("movida")
+            .appendingPathComponent(moduleName)
+        
+        if !fileManager.fileExists(atPath: dataPath.absoluteString){
+            do {
+                
+                //Path
+                try fileManager.createDirectory(atPath: dataPath.absoluteString, withIntermediateDirectories: true, attributes: nil)
+                
+                let mockXML = MockFilesKotlin().getMockXML(name: moduleName)
+                let XMLURL = docURL.appendingPathComponent("activity_\(moduleName.lowercased()).xml", isDirectory: false)
+                self.addFile(content: mockXML, URL: XMLURL)
+                
+                // Domain
+                let pathDomain = dataPath.appendingPathComponent("domain")
+                try fileManager.createDirectory(atPath: pathDomain.absoluteString, withIntermediateDirectories: true, attributes: nil)
+                
+                // -> Models
+                let pathModels = pathDomain.appendingPathComponent("models")
+                try fileManager.createDirectory(atPath: pathModels.absoluteString, withIntermediateDirectories: true, attributes: nil)
+                
+                let mockModel = MockFilesKotlin().getMockModel(name: moduleName)
+                let responseModel = pathModels.appendingPathComponent("\(moduleName)Model.kt", isDirectory: false)
+                self.addFile(content: mockModel, URL: responseModel)
+                
+                // -> Repositories
+                let pathRepositories = pathDomain.appendingPathComponent("repositories")
+                try fileManager.createDirectory(atPath: pathRepositories.absoluteString, withIntermediateDirectories: true, attributes: nil)
+                
+                let mockRepository = MockFilesKotlin().getMockRepository(name: moduleName)
+                let responseRepository = pathRepositories.appendingPathComponent("\(moduleName)Repository.kt", isDirectory: false)
+                self.addFile(content: mockRepository, URL: responseRepository)
+                
+                // -> Use Cases
+                let pathUseCases = pathDomain.appendingPathComponent("useCases")
+                try fileManager.createDirectory(atPath: pathUseCases.absoluteString, withIntermediateDirectories: true, attributes: nil)
+                
+                let mockUseCase = MockFilesKotlin().getMockUseCase(name: moduleName)
+                let responseUseCase = pathUseCases.appendingPathComponent("\(moduleName)UseCase.kt", isDirectory: false)
+                self.addFile(content: mockUseCase, URL: responseUseCase)
+                
+                
+                //Data
+                let pathData = dataPath.appendingPathComponent("data")
+                try fileManager.createDirectory(atPath: pathData.absoluteString, withIntermediateDirectories: true, attributes: nil)
+                
+                let mockRepositoryImpl = MockFilesKotlin().getMockRepositoryImpl(name: moduleName)
+                let responseRI = pathData.appendingPathComponent("\(moduleName)RepositoryImpl.kt", isDirectory: false)
+                self.addFile(content: mockRepositoryImpl, URL: responseRI)
+                
+                let mockEndPoints = MockFilesKotlin().getMockEndPoints(name: moduleName)
+                let responseEP = pathData.appendingPathComponent("\(moduleName)EndPoints.kt", isDirectory: false)
+                self.addFile(content: mockEndPoints, URL: responseEP)
+                
+
+                // -> Mappers
+                let pathDataMappers = pathData.appendingPathComponent("mappers")
+                try fileManager.createDirectory(atPath: pathDataMappers.absoluteString, withIntermediateDirectories: true, attributes: nil)
+                
+                let mockResponseToModel = MockFilesKotlin().getMockMapperResponseToModel(name: moduleName)
+                let responseToModel = pathDataMappers.appendingPathComponent("\(moduleName)ResponseToModel.kt", isDirectory: false)
+                self.addFile(content: mockResponseToModel, URL: responseToModel)
+                
+                let mockRequestToModel = MockFilesKotlin().getMockMapperRequestToModel(name: moduleName)
+                let requestToModel = pathDataMappers.appendingPathComponent("\(moduleName)RequestToModel.kt", isDirectory: false)
+                self.addFile(content: mockRequestToModel, URL: requestToModel)
+                
+                // -> Requests
+                let pathDataRequests = pathData.appendingPathComponent("requests")
+                try fileManager.createDirectory(atPath: pathDataRequests.absoluteString, withIntermediateDirectories: true, attributes: nil)
+                
+                let mockRequests = MockFilesKotlin().getMockRequest(name: moduleName)
+                let request = pathDataRequests.appendingPathComponent("\(moduleName)Request.kt", isDirectory: false)
+                self.addFile(content: mockRequests, URL: request)
+                
+                // -> Responses
+                let pathDataResponses = pathData.appendingPathComponent("responses")
+                try fileManager.createDirectory(atPath: pathDataResponses.absoluteString, withIntermediateDirectories: true, attributes: nil)
+                
+                let mockResponse = MockFilesKotlin().getMockResponse(name: moduleName)
+                let Response = pathDataResponses.appendingPathComponent("\(moduleName)Response.kt", isDirectory: false)
+                self.addFile(content: mockResponse, URL: Response)
+                
+                // UI
+                let pathUI = dataPath.appendingPathComponent("UI")
+                try fileManager.createDirectory(atPath: pathUI.absoluteString, withIntermediateDirectories: true, attributes: nil)
+                
+                let mockExt = MockFilesKotlin().getMockExt(name: moduleName)
+                let responseExt = pathUI.appendingPathComponent("\(moduleName)Ext.kt", isDirectory: false)
+                self.addFile(content: mockExt, URL: responseExt)
+                
+                let mockActivity = MockFilesKotlin().getMockActivity(name: moduleName)
+                let responseActivity = pathUI.appendingPathComponent("\(moduleName)Activity.kt", isDirectory: false)
+                self.addFile(content: mockActivity, URL: responseActivity)
+                
+                let mockViewModel = MockFilesKotlin().getMockViewModel(name: moduleName)
+                let responseVM = pathUI.appendingPathComponent("\(moduleName)ViewModel.kt", isDirectory: false)
+                self.addFile(content: mockViewModel, URL: responseVM)
+                
+                // Path
+                let mockDI = MockFilesKotlin().getMockDI(name: moduleName)
+                let responseDI = dataPath.appendingPathComponent("\(moduleName)DI.kt", isDirectory: false)
+                self.addFile(content: mockDI, URL: responseDI)
+                
+                callBack(true, ConstantsStrings.labelSuccessDir.rawValue)
+                
+            } catch {
+                
+                callBack(false, error.localizedDescription)
+                
+            }
+            
+        } else {
+            
+            callBack(false, ConstantsStrings.labelErrorDir.rawValue)
+            
+        }
+        
+//        if FileManager.SearchPathDirectory.desktopDirectory.createSubFolder(named: moduleName) {
+//            print("folder successfully created")
+//        }
+        
+    }
+    
     func addFile(content: String? , URL: URL) {
         if !FileManager.default.fileExists(atPath: URL.absoluteString) {
             FileManager.default.createFile(atPath: URL.absoluteString, contents: content?.data(using: .utf8), attributes: nil)
