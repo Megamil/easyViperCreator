@@ -75,6 +75,7 @@ extension MockFilesKotlin {
         dateFormatter.dateFormat = "yyyy"
         let yearString = dateFormatter.string(from: date)
         
+        text = text.replacingOccurrences(of: companyKey, with: "empresa") //@todo
         text = text.replacingOccurrences(of: nameKey, with: NSFullUserName())
         text = text.replacingOccurrences(of: dateKey, with: dateString)
         text = text.replacingOccurrences(of: yearKey, with: yearString)
@@ -91,6 +92,7 @@ class MockFilesKotlin {
     let nameKey = "_NAME_"
     let dateKey = "_DATE_"
     let yearKey = "_YEAR_"
+    let companyKey = "_COMPANY_"
     
     let mockMapperResponseToModel =
 """
@@ -103,15 +105,14 @@ class MockFilesKotlin {
 //
 // ----------------------------------------------------------------------------
 
-package com.movida.moduleKotlins.data.mappers
+package com._COMPANY_.moduleKotlins.data.mappers
 
-import android.content.Context
-import com.movida.moduleKotlins.data.responses.ModuleKotlinsResponse
-import com.movida.moduleKotlins.domain.models.ModuleKotlin
+import com._COMPANY_.moduleKotlins.data.responses.ModuleKotlinsResponse
+import com._COMPANY_.moduleKotlins.domain.models.ModuleKotlin
 
 internal class ModuleKotlinsDataToModel {
 
-    suspend fun map(context: Context, data: ModuleKotlinsResponse) =
+    suspend fun map(data: ModuleKotlinsResponse) =
 
         ModuleKotlin(
             success = data.success,
@@ -132,7 +133,7 @@ internal class ModuleKotlinsDataToModel {
 //
 // ----------------------------------------------------------------------------
 
-package com.movida.moduleKotlins.data.mappers
+package com._COMPANY_.moduleKotlins.data.mappers
 
 class ModuleKotlinsRequestToModel {
 
@@ -151,7 +152,7 @@ class ModuleKotlinsRequestToModel {
 //
 // ----------------------------------------------------------------------------
 
-package com.movida.moduleKotlins.data.requests
+package com._COMPANY_.moduleKotlins.data.requests
 
 import com.google.gson.annotations.SerializedName
 import io.michaelrocks.paranoid.Obfuscate
@@ -175,7 +176,7 @@ data class ModuleKotlinsRequest(
 //
 // ----------------------------------------------------------------------------
 
-package com.movida.moduleKotlins.data.responses
+package com._COMPANY_.moduleKotlins.data.responses
 
 import com.google.gson.annotations.SerializedName
 import io.michaelrocks.paranoid.Obfuscate
@@ -199,10 +200,10 @@ class ModuleKotlinsResponse(
 //
 // ----------------------------------------------------------------------------
 
-package com.movida.moduleKotlins.data
+package com._COMPANY_.moduleKotlins.data
 
-import com.movida.moduleKotlins.data.requests.ModuleKotlinsRequest
-import com.movida.moduleKotlins.data.responses.ModuleKotlinsResponse
+import com._COMPANY_.moduleKotlins.data.requests.ModuleKotlinsRequest
+import com._COMPANY_.moduleKotlins.data.responses.ModuleKotlinsResponse
 import io.michaelrocks.paranoid.Obfuscate
 import retrofit2.Response
 import retrofit2.http.*
@@ -228,22 +229,22 @@ interface ModuleKotlinsEndPoints {
 //
 // ----------------------------------------------------------------------------
 
-package com.movida.moduleKotlins.data
+package com._COMPANY_.moduleKotlins.data
 
 import android.content.Context
-import com.movida.commons.repository.base.connection.extentions.coroutines.Status
-import com.movida.commons.repository.base.connection.extentions.coroutines.connectIn
-import com.movida.commons.repository.domain.mapperToDomain
-import com.movida.commons.repository.domain.mapperToErrorDomain
-import com.movida.moduleKotlins.data.mappers.ModuleKotlinsDataToModel
-import com.movida.moduleKotlins.data.requests.ModuleKotlinsRequest
-import com.movida.moduleKotlins.domain.models.ModuleKotlin
-import com.movida.moduleKotlins.domain.repositories.ModuleKotlinsRepository
+import com._COMPANY_.commons.repository.base.connection.extentions.coroutines.Status
+import com._COMPANY_.commons.repository.base.connection.extentions.coroutines.connectIn
+import com._COMPANY_.commons.repository.domain.mapperToDomain
+import com._COMPANY_.commons.repository.domain.mapperToErrorDomain
+import com._COMPANY_.moduleKotlins.data.mappers.ModuleKotlinsDataToModel
+import com._COMPANY_.moduleKotlins.data.requests.ModuleKotlinsRequest
+import com._COMPANY_.moduleKotlins.domain.models.ModuleKotlin
+import com._COMPANY_.moduleKotlins.domain.repositories.ModuleKotlinsRepository
 
-internal class ModuleKotlinsRepositoryImpl(private val service: ModuleKotlinsEndPoints) :
+internal class ModuleKotlinsRepositoryImpl(private val context: Context, private val service: ModuleKotlinsEndPoints) :
     ModuleKotlinsRepository {
 
-    override suspend fun getModuleKotlin(context: Context, body: ModuleKotlinsRequest): Result<ModuleKotlin> {
+    override suspend fun getModuleKotlin(body: ModuleKotlinsRequest): Result<ModuleKotlin> {
 
         val response = service.connectIn {
             getModuleKotlins(body)
@@ -253,7 +254,7 @@ internal class ModuleKotlinsRepositoryImpl(private val service: ModuleKotlinsEnd
 
             Status.SUCCESS -> {
                 if(response.data?.success == true)
-                    return response.data.mapperToDomain { ModuleKotlinsDataToModel().map(context,this) }
+                    return response.data.mapperToDomain { ModuleKotlinsDataToModel().map(this) }
                 else
                     return response.data?.msg.mapperToErrorDomain()
             }
@@ -279,7 +280,7 @@ internal class ModuleKotlinsRepositoryImpl(private val service: ModuleKotlinsEnd
 //
 // ----------------------------------------------------------------------------
 
-package com.movida.moduleKotlins.domain.models
+package com._COMPANY_.moduleKotlins.domain.models
 
 internal data class ModuleKotlin(
     val success: Boolean = false,
@@ -299,15 +300,13 @@ internal data class ModuleKotlin(
 //
 // ----------------------------------------------------------------------------
 
-package com.movida.moduleKotlins.domain.repositories
+package com._COMPANY_.moduleKotlins.domain.repositories
 
-import android.content.Context
-import com.movida.moduleKotlins.data.requests.ModuleKotlinsRequest
-import com.movida.moduleKotlins.domain.models.ModuleKotlin
+import com._COMPANY_.moduleKotlins.data.requests.ModuleKotlinsRequest
+import com._COMPANY_.moduleKotlins.domain.models.ModuleKotlin
 
 internal interface ModuleKotlinsRepository {
     suspend fun getModuleKotlin(
-        context: Context,
         body: ModuleKotlinsRequest
     ): Result<ModuleKotlin>
 }
@@ -325,14 +324,13 @@ internal interface ModuleKotlinsRepository {
 //
 // ----------------------------------------------------------------------------
 
-package com.movida.moduleKotlins.domain.useCases
+package com._COMPANY_.moduleKotlins.domain.useCases
 
-import android.content.Context
-import com.movida.moduleKotlins.data.requests.ModuleKotlinsRequest
-import com.movida.moduleKotlins.domain.repositories.ModuleKotlinsRepository
+import com._COMPANY_.moduleKotlins.data.requests.ModuleKotlinsRequest
+import com._COMPANY_.moduleKotlins.domain.repositories.ModuleKotlinsRepository
 
 internal class ModuleKotlinsUseCase(private val repository: ModuleKotlinsRepository) {
-    suspend fun getModuleKotlin(context: Context, body: ModuleKotlinsRequest) = repository.getModuleKotlin(context,body)
+    suspend fun getModuleKotlin(body: ModuleKotlinsRequest) = repository.getModuleKotlin(body)
 }
 
 """
@@ -348,15 +346,15 @@ internal class ModuleKotlinsUseCase(private val repository: ModuleKotlinsReposit
 //
 // ----------------------------------------------------------------------------
 
-package com.movida.moduleKotlins.ui.moduleKotlin
+package com._COMPANY_.moduleKotlins.ui.moduleKotlin
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.movida.commons.toolbox.libs.liveData.extentions.observeNotNull
-import com.movida.commons.view.dialog.dialogError
-import com.movida.commons.view.generics.base.activity.BaseActivity
-import com.movida.contract.databinding.ActivityModuleKotlinBinding
-import com.movida.core.toolbox.extensions.view.setSafeOnClickListener
+import com._COMPANY_.commons.toolbox.libs.liveData.extentions.observeNotNull
+import com._COMPANY_.commons.view.dialog.dialogError
+import com._COMPANY_.commons.view.generics.base.activity.BaseActivity
+import com._COMPANY_.contract.databinding.ActivityModuleKotlinBinding
+import com._COMPANY_.core.toolbox.extensions.view.setSafeOnClickListener
 import io.michaelrocks.paranoid.Obfuscate
 
 @Obfuscate
@@ -370,7 +368,7 @@ internal class ModuleKotlinActivity : BaseActivity<ModuleKotlinViewModel, Activi
         bind = binding
         val context = binding.root.context
 
-        viewModel?.getModuleKotlin(context)
+        viewModel?.getModuleKotlin()
 
         bind.btnAction.setSafeOnClickListener {
             print("Ok")
@@ -406,32 +404,29 @@ internal class ModuleKotlinActivity : BaseActivity<ModuleKotlinViewModel, Activi
 //
 // ----------------------------------------------------------------------------
 
-package com.movida.moduleKotlins.ui.moduleKotlin
+package com._COMPANY_.moduleKotlins.ui.moduleKotlin
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
-import com.movida.commons.repository.domain.useCaseCatching
-import com.movida.commons.toolbox.libs.liveData.viewModel.BaseViewModel
-import com.movida.core.coreUi.view.generics.dialog.dialogTabletMessage
-import com.movida.moduleKotlins.data.requests.ModuleKotlinsRequest
-import com.movida.moduleKotlins.domain.useCases.ModuleKotlinsUseCase
+import com._COMPANY_.commons.repository.domain.useCaseCatching
+import com._COMPANY_.commons.toolbox.libs.liveData.viewModel.BaseViewModel
+import com._COMPANY_.core.coreUi.view.generics.dialog.dialogTabletMessage
+import com._COMPANY_.moduleKotlins.data.requests.ModuleKotlinsRequest
+import com._COMPANY_.moduleKotlins.domain.useCases.ModuleKotlinsUseCase
 
 internal class ModuleKotlinViewModel(
     private val moduleKotlinsUseCase: ModuleKotlinsUseCase,
 ) : BaseViewModel() {
 
-    fun getModuleKotlin(context: Context) {
+    fun getModuleKotlin() {
         coroutineScopeLaunchLoading {
             val request = ModuleKotlinsRequest()
 
             useCaseCatching {
-                moduleKotlinsUseCase.getModuleKotlin(context, request)
+                moduleKotlinsUseCase.getModuleKotlin(request)
             }.onSuccess {
                 print(it.msg)
             }.onFailure {
-                (context as AppCompatActivity).dialogTabletMessage(
-                    message = it.message
-                ) {}
+                it.alertError()
             }
         }
     }
@@ -451,10 +446,10 @@ internal class ModuleKotlinViewModel(
 //
 // ----------------------------------------------------------------------------
 
-package com.movida.moduleKotlins.ui
+package com._COMPANY_.moduleKotlins.ui
 
 import android.app.Activity
-import com.movida.moduleKotlins.ui.moduleKotlin.ModuleKotlinActivity
+import com._COMPANY_.moduleKotlins.ui.moduleKotlin.ModuleKotlinActivity
 import org.jetbrains.anko.intentFor
 
 fun Activity.openModuleKotlinsModuleKotlin() = startActivity(intentFor<ModuleKotlinActivity>())
@@ -472,20 +467,20 @@ fun Activity.openModuleKotlinsModuleKotlin() = startActivity(intentFor<ModuleKot
 //
 // ----------------------------------------------------------------------------
 
-package com.movida.moduleKotlins
+package com._COMPANY_.moduleKotlins
 
-import com.movida.core.coreUi.repository.MovidaApi
-import com.movida.moduleKotlins.data.ModuleKotlinsEndPoints
-import com.movida.moduleKotlins.data.ModuleKotlinsRepositoryImpl
-import com.movida.moduleKotlins.domain.repositories.ModuleKotlinsRepository
-import com.movida.moduleKotlins.domain.useCases.ModuleKotlinsUseCase
-import com.movida.moduleKotlins.ui.moduleKotlin.ModuleKotlinViewModel
+import com._COMPANY_.core.coreUi.repository._COMPANY_Api
+import com._COMPANY_.moduleKotlins.data.ModuleKotlinsEndPoints
+import com._COMPANY_.moduleKotlins.data.ModuleKotlinsRepositoryImpl
+import com._COMPANY_.moduleKotlins.domain.repositories.ModuleKotlinsRepository
+import com._COMPANY_.moduleKotlins.domain.useCases.ModuleKotlinsUseCase
+import com._COMPANY_.moduleKotlins.ui.moduleKotlin.ModuleKotlinViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 private val appRepositoryModule = module {
-    factory<ModuleKotlinsEndPoints> { MovidaApi.create(context = get()) }
-    factory<ModuleKotlinsRepository> { ModuleKotlinsRepositoryImpl(service = get()) }
+    factory<ModuleKotlinsEndPoints> { _COMPANY_Api.create(context = get()) }
+    factory<ModuleKotlinsRepository> { ModuleKotlinsRepositoryImpl(context = get(), service = get()) }
 }
 
 private val appDomainModule = module {
@@ -515,7 +510,7 @@ val moduleKotlinsModule = listOf(
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.movida.core.coreUi.view.generics.header.ui.HeaderView
+    <com._COMPANY_.core.coreUi.view.generics.header.ui.HeaderView
         android:id="@+id/header_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -529,10 +524,10 @@ val moduleKotlinsModule = listOf(
         android:paddingStart="@dimen/_16sdp"
         android:paddingEnd="@dimen/_16sdp"
         android:paddingBottom="@dimen/_16sdp"
-        tools:context="com.movida.moduleKotlins.ui.ModuleKotlinActivity">
+        tools:context="com._COMPANY_.moduleKotlins.ui.ModuleKotlinActivity">
 
 
-        <com.movida.core.components.ButtonMyriadSemiBold
+        <com._COMPANY_.core.components.ButtonMyriadSemiBold
             android:id="@+id/btnAction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -119,11 +119,12 @@ class HomePresenter {
         
         print(ConstantsStrings.buttonTitleCreateViper.rawValue)
         print(moduleName)
+        var fileModuleName = moduleName.prefix(1).capitalized + moduleName.dropFirst()
         
         let docURL = URL(string: path)!
         let dataPath = docURL
             .appendingPathComponent("com")
-            .appendingPathComponent("movida")
+            .appendingPathComponent("empresa") //@todo adicione o nome correto
             .appendingPathComponent(moduleName)
         
         if !fileManager.fileExists(atPath: dataPath.absoluteString){
@@ -145,7 +146,7 @@ class HomePresenter {
                 try fileManager.createDirectory(atPath: pathModels.absoluteString, withIntermediateDirectories: true, attributes: nil)
                 
                 let mockModel = MockFilesKotlin().getMockModel(name: moduleName)
-                let responseModel = pathModels.appendingPathComponent("\(moduleName)Model.kt", isDirectory: false)
+                let responseModel = pathModels.appendingPathComponent("\(fileModuleName)Model.kt", isDirectory: false)
                 self.addFile(content: mockModel, URL: responseModel)
                 
                 // -> Repositories
@@ -153,7 +154,7 @@ class HomePresenter {
                 try fileManager.createDirectory(atPath: pathRepositories.absoluteString, withIntermediateDirectories: true, attributes: nil)
                 
                 let mockRepository = MockFilesKotlin().getMockRepository(name: moduleName)
-                let responseRepository = pathRepositories.appendingPathComponent("\(moduleName)Repository.kt", isDirectory: false)
+                let responseRepository = pathRepositories.appendingPathComponent("\(fileModuleName)Repository.kt", isDirectory: false)
                 self.addFile(content: mockRepository, URL: responseRepository)
                 
                 // -> Use Cases
@@ -161,7 +162,7 @@ class HomePresenter {
                 try fileManager.createDirectory(atPath: pathUseCases.absoluteString, withIntermediateDirectories: true, attributes: nil)
                 
                 let mockUseCase = MockFilesKotlin().getMockUseCase(name: moduleName)
-                let responseUseCase = pathUseCases.appendingPathComponent("\(moduleName)UseCase.kt", isDirectory: false)
+                let responseUseCase = pathUseCases.appendingPathComponent("\(fileModuleName)UseCase.kt", isDirectory: false)
                 self.addFile(content: mockUseCase, URL: responseUseCase)
                 
                 
@@ -170,11 +171,11 @@ class HomePresenter {
                 try fileManager.createDirectory(atPath: pathData.absoluteString, withIntermediateDirectories: true, attributes: nil)
                 
                 let mockRepositoryImpl = MockFilesKotlin().getMockRepositoryImpl(name: moduleName)
-                let responseRI = pathData.appendingPathComponent("\(moduleName)RepositoryImpl.kt", isDirectory: false)
+                let responseRI = pathData.appendingPathComponent("\(fileModuleName)RepositoryImpl.kt", isDirectory: false)
                 self.addFile(content: mockRepositoryImpl, URL: responseRI)
                 
                 let mockEndPoints = MockFilesKotlin().getMockEndPoints(name: moduleName)
-                let responseEP = pathData.appendingPathComponent("\(moduleName)EndPoints.kt", isDirectory: false)
+                let responseEP = pathData.appendingPathComponent("\(fileModuleName)EndPoints.kt", isDirectory: false)
                 self.addFile(content: mockEndPoints, URL: responseEP)
                 
 
@@ -183,11 +184,11 @@ class HomePresenter {
                 try fileManager.createDirectory(atPath: pathDataMappers.absoluteString, withIntermediateDirectories: true, attributes: nil)
                 
                 let mockResponseToModel = MockFilesKotlin().getMockMapperResponseToModel(name: moduleName)
-                let responseToModel = pathDataMappers.appendingPathComponent("\(moduleName)ResponseToModel.kt", isDirectory: false)
+                let responseToModel = pathDataMappers.appendingPathComponent("\(fileModuleName)ResponseToModel.kt", isDirectory: false)
                 self.addFile(content: mockResponseToModel, URL: responseToModel)
                 
                 let mockRequestToModel = MockFilesKotlin().getMockMapperRequestToModel(name: moduleName)
-                let requestToModel = pathDataMappers.appendingPathComponent("\(moduleName)RequestToModel.kt", isDirectory: false)
+                let requestToModel = pathDataMappers.appendingPathComponent("\(fileModuleName)RequestToModel.kt", isDirectory: false)
                 self.addFile(content: mockRequestToModel, URL: requestToModel)
                 
                 // -> Requests
@@ -195,7 +196,7 @@ class HomePresenter {
                 try fileManager.createDirectory(atPath: pathDataRequests.absoluteString, withIntermediateDirectories: true, attributes: nil)
                 
                 let mockRequests = MockFilesKotlin().getMockRequest(name: moduleName)
-                let request = pathDataRequests.appendingPathComponent("\(moduleName)Request.kt", isDirectory: false)
+                let request = pathDataRequests.appendingPathComponent("\(fileModuleName)Request.kt", isDirectory: false)
                 self.addFile(content: mockRequests, URL: request)
                 
                 // -> Responses
@@ -203,7 +204,7 @@ class HomePresenter {
                 try fileManager.createDirectory(atPath: pathDataResponses.absoluteString, withIntermediateDirectories: true, attributes: nil)
                 
                 let mockResponse = MockFilesKotlin().getMockResponse(name: moduleName)
-                let Response = pathDataResponses.appendingPathComponent("\(moduleName)Response.kt", isDirectory: false)
+                let Response = pathDataResponses.appendingPathComponent("\(fileModuleName)Response.kt", isDirectory: false)
                 self.addFile(content: mockResponse, URL: Response)
                 
                 // UI
@@ -211,20 +212,20 @@ class HomePresenter {
                 try fileManager.createDirectory(atPath: pathUI.absoluteString, withIntermediateDirectories: true, attributes: nil)
                 
                 let mockExt = MockFilesKotlin().getMockExt(name: moduleName)
-                let responseExt = pathUI.appendingPathComponent("\(moduleName)Ext.kt", isDirectory: false)
+                let responseExt = pathUI.appendingPathComponent("\(fileModuleName)Ext.kt", isDirectory: false)
                 self.addFile(content: mockExt, URL: responseExt)
                 
                 let mockActivity = MockFilesKotlin().getMockActivity(name: moduleName)
-                let responseActivity = pathUI.appendingPathComponent("\(moduleName)Activity.kt", isDirectory: false)
+                let responseActivity = pathUI.appendingPathComponent("\(fileModuleName)Activity.kt", isDirectory: false)
                 self.addFile(content: mockActivity, URL: responseActivity)
                 
                 let mockViewModel = MockFilesKotlin().getMockViewModel(name: moduleName)
-                let responseVM = pathUI.appendingPathComponent("\(moduleName)ViewModel.kt", isDirectory: false)
+                let responseVM = pathUI.appendingPathComponent("\(fileModuleName)ViewModel.kt", isDirectory: false)
                 self.addFile(content: mockViewModel, URL: responseVM)
                 
                 // Path
                 let mockDI = MockFilesKotlin().getMockDI(name: moduleName)
-                let responseDI = dataPath.appendingPathComponent("\(moduleName)DI.kt", isDirectory: false)
+                let responseDI = dataPath.appendingPathComponent("\(fileModuleName)DI.kt", isDirectory: false)
                 self.addFile(content: mockDI, URL: responseDI)
                 
                 callBack(true, ConstantsStrings.labelSuccessDir.rawValue)
