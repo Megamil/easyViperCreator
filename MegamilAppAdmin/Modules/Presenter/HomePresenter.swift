@@ -119,7 +119,7 @@ class HomePresenter {
         
         print(ConstantsStrings.buttonTitleCreateViper.rawValue)
         print(moduleName)
-        var fileModuleName = moduleName.prefix(1).capitalized + moduleName.dropFirst()
+        let fileModuleName = moduleName.prefix(1).capitalized + moduleName.dropFirst()
         
         let docURL = URL(string: path)!
         let dataPath = docURL
