@@ -360,15 +360,14 @@ import io.michaelrocks.paranoid.Obfuscate
 @Obfuscate
 internal class ModuleKotlinActivity : BaseActivity<ModuleKotlinViewModel, ActivityModuleKotlinBinding>() {
 
-    private lateinit var adapter: ModuleKotlinAdapter
     private lateinit var bind: ActivityModuleKotlinBinding
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun view(binding: ActivityModuleKotlinBinding) {
         bind = binding
-        val context = binding.root.context
+        //val context = binding.root.context
 
-        viewModel?.getModuleKotlin()
+        //viewModel?.getModuleKotlin()
 
         bind.btnAction.setSafeOnClickListener {
             print("Ok")
