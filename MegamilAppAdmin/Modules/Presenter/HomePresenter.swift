@@ -208,7 +208,7 @@ class HomePresenter {
                 self.addFile(content: mockResponse, URL: Response)
                 
                 // UI
-                let pathUI = dataPath.appendingPathComponent("UI")
+                let pathUI = dataPath.appendingPathComponent("ui")
                 try fileManager.createDirectory(atPath: pathUI.absoluteString, withIntermediateDirectories: true, attributes: nil)
                 
                 let mockExt = MockFilesKotlin().getMockExt(name: moduleName)
