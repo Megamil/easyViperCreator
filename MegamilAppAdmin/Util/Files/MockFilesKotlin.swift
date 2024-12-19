@@ -75,7 +75,7 @@ extension MockFilesKotlin {
         dateFormatter.dateFormat = "yyyy"
         let yearString = dateFormatter.string(from: date)
         
-        text = text.replacingOccurrences(of: companyKey, with: "empresa") //@todo
+        text = text.replacingOccurrences(of: companyKey, with: "movida") //@todo
         text = text.replacingOccurrences(of: nameKey, with: NSFullUserName())
         text = text.replacingOccurrences(of: dateKey, with: dateString)
         text = text.replacingOccurrences(of: yearKey, with: yearString)
@@ -468,7 +468,7 @@ fun Activity.openModuleKotlinsModuleKotlin() = startActivity(intentFor<ModuleKot
 
 package com._COMPANY_.moduleKotlins
 
-import com._COMPANY_.core.coreUi.repository._COMPANY_Api
+import com._COMPANY_.core.shared.connection._COMPANY_Api
 import com._COMPANY_.moduleKotlins.data.ModuleKotlinsEndPoints
 import com._COMPANY_.moduleKotlins.data.ModuleKotlinsRepositoryImpl
 import com._COMPANY_.moduleKotlins.domain.repositories.ModuleKotlinsRepository
@@ -509,7 +509,7 @@ val moduleKotlinsModule = listOf(
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com._COMPANY_.core.coreUi.view.generics.header.ui.HeaderView
+    <com._COMPANY_.core.components.generics.header.ui.HeaderView
         android:id="@+id/header_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
